@@ -1,2 +1,2 @@
 # TowerDefense
- this game is a lyceum yandex project by pygame
+ This game is a yandex lyceum project that uses pygame.
