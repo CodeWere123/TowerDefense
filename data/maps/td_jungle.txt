@@ -1,0 +1,11 @@
+td_jungle_1;Jungle;10;10
+land_1;road_5;land_1;land_1;land_1;land_1;land_1;land_1;land_1;land_1;
+land_1;road_5;land_1;land_1;land_1;land_1;land_1;land_1;land_1;land_1;
+land_1;road_5;road_5;road_5;road_5;road_5;road_5;road_5;land_1;land_1;
+land_1;land_1;land_1;land_1;land_1;land_1;land_1;road_5;land_1;land_1;
+land_1;land_1;land_1;land_1;land_1;land_1;land_1;road_5;land_1;land_1;
+land_1;land_1;land_1;land_1;land_1;land_1;land_1;road_5;land_1;land_1;
+land_1;land_1;land_1;land_1;land_1;land_1;land_1;road_5;land_1;land_1;
+land_1;road_5;road_5;road_5;road_5;road_5;road_5;road_5;land_1;land_1;
+land_1;road_5;land_1;land_1;land_1;land_1;land_1;land_1;land_1;land_1;
+land_1;road_5;land_1;land_1;land_1;land_1;land_1;land_1;land_1;land_1;
