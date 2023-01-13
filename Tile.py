@@ -2,6 +2,7 @@ import pygame
 from load_image import load_image
 from SpriteGroups import tiles_group, all_sprites
 
+# Картинки
 tile_images = {
     'road_1': load_image('road_1.png', ["PNG", "road"]),
     'road_2': load_image('road_2.png', ["PNG", "road"]),
@@ -19,6 +20,7 @@ tile_images = {
     'land_1':  load_image('land_1.png', ["PNG", "land"])
 }
 
+# размер тайла
 TILE_SIZE = 50
 
 
