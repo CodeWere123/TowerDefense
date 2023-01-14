@@ -14,6 +14,7 @@ class Map:
         self.path = []
         self.generate_level()
 
+    # Файл карты примера находится в data/maps/ , а тут код превращает txt в что-то человеческое
     def load_map(self, filename):
         filename = os.path.join("data", "maps", filename)
         with open(filename, 'r') as mapFile:
@@ -24,12 +25,14 @@ class Map:
         map_name = info[1]
         h, w = info[2:]
         return [map_filename, map_name, h, w, level_map]
-
+    
+    # Это функция работает наполовину
     def generate_level(self):
         for y in range(self.height):
             for x in range(self.width):
                 tile = Tile(self.level_map[y][x], x, y)
                 self.tiles.append(tile)
+                # Дальше этого коммента идет полная дичь которая творит совершенно не то что надо, но при этом довольно уверенно
                 if self.level_map[y][x] == 'road_5':
                     self.path.append((x, y))
         start_x = self.path[0][0]
