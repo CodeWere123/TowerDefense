@@ -20,13 +20,10 @@ tile_images = {
     'land_1':  load_image('land_1.png', ["PNG", "land"])
 }
 
-# размер тайла
-TILE_SIZE = 50
-
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, tile_type, pos_x, pos_y):
+    def __init__(self, tile_type, pos_x, pos_y, tile_size):
         super().__init__(tiles_group, all_sprites)
         self.image = tile_images[tile_type]
         self.rect = self.image.get_rect().move(
-            TILE_SIZE * pos_x, TILE_SIZE * pos_y)
+            tile_size * pos_x, tile_size * pos_y)
