@@ -2,7 +2,9 @@ import pygame
 from load_image import load_image
 from SpriteGroups import projectile_group, all_sprites
 import sys
-class Projectail(pygame.sprite.Sprite):
+
+
+class Projectile(pygame.sprite.Sprite):
     def __init__(self, pos, target_pos, damage, speed):
         """
         :param pos: позиция
@@ -18,7 +20,7 @@ class Projectail(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x, self.y = self.rect.x, self.rect.y = pos
         self.delay = 400
-        self.tick = 0 #тики, я хз как это сделать подругому, оно работает
+        self.tick = 0 # тики, я хз как это сделать подругому, оно работает
         self.speed = speed
         self.damage = damage
         self.i_index = 0
@@ -51,7 +53,8 @@ class Projectail(pygame.sprite.Sprite):
             else:
                 self.tick += 1
 
-#if __name__ == '__main__':
+
+# if __name__ == '__main__':
 #    pygame.init()
 #    size = width, height = 1000, 500
 #    screen = pygame.display.set_mode(size)
