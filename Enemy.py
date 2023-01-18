@@ -18,11 +18,10 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, health, speed, damage, enemy_type, image, paths, difficulty, game):
         super().__init__(enemy_group, all_sprites)
         self.health = round(health * (1 + (difficulty - 1) * 0.5))
-        self.speed = round(speed * (1 + (difficulty - 1) * 0.1))
+        self.speed = speed * (1 + (difficulty - 1) * 0.1)
         self.damage = math.floor(damage * (1 + (difficulty - 1) * 0.5))
         self.enemy_type = enemy_type
         self.path = random.choice(paths)
-        print(self.path)
         self.image = enemy_images[image]
         self.rect = self.image.get_rect()
         self.x, self.y = self.rect.x, self.rect.y = self.path[0]
@@ -34,15 +33,14 @@ class Enemy(pygame.sprite.Sprite):
         # куда перемещаемся
         part_x, part_y = path_part = self.path[self.current_path_part]
         # кортеж разниц потому что мне лень писать ифы
-        difference = (part_x - self.x, part_y - self.y)
-        bool_difference = (bool(part_x - self.x), bool(part_y - self.y))
+        difference = (self.number_to_sign(part_x - self.x), self.number_to_sign(part_y - self.y))
         # отнимается потому что коорды идут сверху слева, а бул для того чтобы от разницы осталось только направление
         if difference[0] != 0:
-            self.x += int(difference[0] / abs(difference[0])) * self.speed
+            self.x += difference[0] * self.speed
         if difference[1] != 0:
-            self.y += int(difference[1] / abs(difference[1])) * self.speed
+            self.y += difference[1] * self.speed
         # если зашел за центр тайла к которому идешь, то поставить позицию на центр тайла и сменить фокус на следующий тайл
-        if (bool(part_x - self.x), bool(part_y - self.y)) != bool_difference:
+        if (self.number_to_sign(part_x - self.x), self.number_to_sign(part_y - self.y)) != difference:
             self.x, self.y = part_x, part_y
             self.current_path_part += 1
             if self.current_path_part == len(self.path):
@@ -50,8 +48,17 @@ class Enemy(pygame.sprite.Sprite):
                 self.kill()
         self.rect.x, self.rect.y = self.x, self.y
 
+    @staticmethod
+    def number_to_sign(num):
+        if num > 0:
+            return 1
+        elif num == 0:
+            return 0
+        else:
+            return -1
+
     # тут я думаю все понятно
     def get_damage(self, damage):
         self.health -= damage
-        if self.health < 0:
+        if self.health == 0:
             self.kill()

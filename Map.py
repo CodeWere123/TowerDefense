@@ -14,8 +14,8 @@ class Map:
         self.tile_size = int(self.map_data[6])
         self.level_map = self.map_data[7]
         self.tiles = []
-        self.paths = [[tuple(self.start_tile)] + self.generate_path(*self.start_tile, *x) for x in \
-                self.end_tiles]
+        self.paths = [[tuple(self.start_tile)] + self.generate_path(
+            *self.start_tile, *x) for x in self.end_tiles]
         self.generate_level()
 
     # Файл карты примера находится в data/maps/ , а тут код превращает txt в что-то человеческое
@@ -74,7 +74,7 @@ class Map:
         valid_neighbours = []
         for nx, ny in neighbours:
             if 0 <= nx < self.width and 0 <= ny < self.height:
-                if self.level_map[ny][nx] == 'road_5' and (nx, ny) not in exclude_list:
+                if self.level_map[ny][nx] == 'r' and (nx, ny) not in exclude_list:
                     valid_neighbours.append((nx, ny))
         return valid_neighbours
 
