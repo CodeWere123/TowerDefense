@@ -1,5 +1,6 @@
 from SpriteGroups import enemy_group
 
+
 def get_target(tower_pos):
     if len(enemy_group) != 0:
         x, y = tower_pos

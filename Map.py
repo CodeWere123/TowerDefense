@@ -10,10 +10,12 @@ class Map:
         self.height = int(self.map_data[2])
         self.width = int(self.map_data[3])
         self.start_tile = [int(x) for x in self.map_data[4]]
-        self.tile_size = int(self.map_data[5])
-        self.level_map = self.map_data[6]
+        self.end_tiles = self.map_data[5]
+        self.tile_size = int(self.map_data[6])
+        self.level_map = self.map_data[7]
         self.tiles = []
-        self.paths = self.generate_path(*self.start_tile)
+        self.paths = [[tuple(self.start_tile)] + self.generate_path(*self.start_tile, *x) for x in \
+                self.end_tiles]
         self.generate_level()
 
     # Файл карты примера находится в data/maps/ , а тут код превращает txt в что-то человеческое
@@ -28,8 +30,11 @@ class Map:
         map_name = info[1]
         h, w = info[2:4]
         start_tile = info[4:6]
-        tile_size = info[6]
-        return [map_filename, map_name, h, w, start_tile, tile_size, level_map]
+        original_end_tiles = info[6:-1]
+        end_tiles = [(int(original_end_tiles[i]), int(original_end_tiles[i + 1])) for i in range(
+            0, len(original_end_tiles), 2)]
+        tile_size = info[-1]
+        return [map_filename, map_name, h, w, start_tile, end_tiles, tile_size, level_map]
     
     # Это функция работает наполовину
     def generate_level(self):
@@ -38,17 +43,25 @@ class Map:
                 tile = Tile(self.level_map[y][x], x, y, self.tile_size)
                 self.tiles.append(tile)
 
-    def generate_path(self, start_x, start_y, exclude_list=None):
-        if exclude_list is None:
-            exclude_list = []
-        paths = []
-        exclude_list.append((start_x, start_y))
-        neighbours = self.get_valid_neighbours(start_x, start_y, exclude_list)
-        if not neighbours:
-            return [exclude_list]
-        for nx, ny in neighbours:
-            paths += self.generate_path(nx, ny, exclude_list)
-        return paths
+    def generate_path(self, start_x, start_y, end_x, end_y):
+        start = (start_x, start_y)
+        end = (end_x, end_y)
+        queue = [start]
+        visited = {start: None}
+        while queue:
+            current = queue.pop(0)
+            if current == end:
+                path = []
+                while current != start:
+                    path.append(current)
+                    current = visited[current]
+                return path[::-1]
+            neighbours = self.get_valid_neighbours(current[0], current[1], visited.keys())
+            for neighbour in neighbours:
+                if neighbour not in visited:
+                    queue.append(neighbour)
+                    visited[neighbour] = current
+        return None
 
     @staticmethod
     def tile_to_screen(tile_x, tile_y, tile_size):
