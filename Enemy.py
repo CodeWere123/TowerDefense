@@ -6,9 +6,8 @@ from SpriteGroups import enemy_group, all_sprites
 
 # Картинки врагов, пока что просто квадраты разных цветов
 enemy_images = {
-    'enemy1': load_image("enemy1.png", ["PNG", "enemy"]),
-    'enemy2': load_image("enemy2.png", ["PNG", "enemy"])
-
+    'minion': load_image("minion.png", ["PNG", "enemy"]),
+    'goblin': load_image("goblin.png", ["PNG", "enemy"])
 }
 
 

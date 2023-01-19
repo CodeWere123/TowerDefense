@@ -6,8 +6,8 @@ from Enemy import Enemy
 from UserEvents import NEW_WAVE_EVENT_ID, ENEMY_SPAWN_INTERVAL_EVENT_ID, ONE_SECOND_EVENT_ID
 
 ENEMIES_DATA = [
-    [20, 1, 1, "land", "enemy1", 1],
-    [50, 2, 2, "air", "enemy2", 3]
+    [20, 1, 1, "land", "goblin", 1],
+    [50, 2, 2, "air", "minion", 3]
 ]
 
 
