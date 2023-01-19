@@ -53,6 +53,7 @@ class Projectail(pygame.sprite.Sprite):
                 else:
                     projectile_group.remove(self)
                     self.kill()
+                    all_sprites.remove(self)
                     Projectail((100, 100), (400, 300), 1, 0.6)
 
             else:

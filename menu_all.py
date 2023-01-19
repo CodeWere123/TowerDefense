@@ -18,7 +18,7 @@ def main_menu(best_score,surface):
     def start_the_game():
         #тут старт
         print(response)
-        return response
+
 
     menu = pygame_menu.Menu('Tower defends', 800, 800,
                             theme=pygame_menu.themes.THEME_GREEN)
@@ -37,7 +37,7 @@ def lose_menu(score, best_score, surface):
     image = load_image("bg_main.jpg", ["PNG"])
 
     def to_menu():
-        main_menu(best_score)
+        main_menu(best_score, surface)
 
     menu = pygame_menu.Menu('Вы проиграли', 800, 800,
                             theme=pygame_menu.themes.THEME_ORANGE)

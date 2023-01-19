@@ -1,5 +1,5 @@
 from SpriteGroups import enemy_group
-
+import random
 
 def get_target(tower_pos):
     if len(enemy_group) != 0:
@@ -13,3 +13,9 @@ def get_target(tower_pos):
                 best = enemy
         return best
     return False
+
+def get_random():
+    if len(enemy_group) != 0:
+        return random.choice(enemy_group)
+    return False
+    #тут ты хотел переделать с големы

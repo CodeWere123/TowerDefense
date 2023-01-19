@@ -3,7 +3,7 @@ from load_image import load_image
 from SpriteGroups import tower_group, all_sprites
 import logging
 from get_target import get_target
-from Projectile import Projectile
+from Projectile import Projectail
 
 
 class Tower(pygame.sprite.Sprite):
@@ -36,7 +36,7 @@ class Tower(pygame.sprite.Sprite):
     def shot(self):
         target = get_target((self.x, self.y))
         if target:
-            Projectile((self.x, self.y), (target.x, target.y), 10, 1)
+            Projectail((self.x, self.y), (target.x, target.y), 10, 1)
 
     def destroy(self):
         logging.info(f"[log]: Башня типа: {self.tower_type} c айди {self.tower_id} уничтожена на "
