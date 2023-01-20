@@ -39,7 +39,7 @@ class Game:
         self.game_is_over = False
         self.setup_ui()
         pygame.time.set_timer(ONE_SECOND_EVENT_ID, 1000)
-        pygame.time.set_timer(NEW_WAVE_EVENT_ID, 5000)
+        pygame.time.set_timer(NEW_WAVE_EVENT_ID, 30000)
         pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 0)
 
     def setup_ui(self):
