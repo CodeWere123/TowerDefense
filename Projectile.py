@@ -37,7 +37,8 @@ class Stone(pygame.sprite.Sprite):
             for i in enemy_group:
                 e_x, e_y = i.get_pos()
                 t_x, t_y = self.x, self.y
-                if math.sqrt(abs(t_x - e_x) ** 2 + abs(t_y - e_y) ** 2) <= self.radius:
+                if math.sqrt(abs(t_x - e_x) ** 2 + abs(t_y - e_y) ** 2) <= self.radius and \
+                        i.enemy_type == "land":
                     i.get_damage(self.damage)
             self.animation_timer += 1 / 60
             if self.animation_timer > self.animation_speed:

@@ -99,13 +99,13 @@ class Map:
         screen_paths = []
         for path in paths_list:
             screen_path = [tuple([x - 12 for x in self.get_start_or_end_coords(path[0][0],
-                                                                            path[0][1])])]
+                                                                               path[0][1])])]
             for tile_x, tile_y in path:
                 screen_x, screen_y = [x - 12 for x in self.tile_to_screen(tile_x, tile_y,
-                                                                      self.tile_size)]
+                                                                          self.tile_size)]
                 screen_path.append((screen_x, screen_y))
             screen_path.append([x - 12 for x in self.get_start_or_end_coords(path[-1][0],
-                                                                            path[-1][1])])
+                                                                             path[-1][1])])
             screen_paths.append(screen_path)
         return screen_paths
 

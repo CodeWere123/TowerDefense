@@ -4,7 +4,7 @@ import random
 from Map import Map
 from Enemy import Enemy
 from UserEvents import NEW_WAVE_EVENT_ID, ENEMY_SPAWN_INTERVAL_EVENT_ID, ONE_SECOND_EVENT_ID
-from SpriteGroups import ui_button_group, all_sprites, enemy_group, tower_group, \
+from SpriteGroups import ui_button_group, enemy_group, tower_group, \
     projectile_group, ui_group
 from Towers import Tower, StoneTower, ArcherTower, WizardTower, GoldMine
 from UI import UIElement, UIButton
