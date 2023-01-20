@@ -4,7 +4,8 @@ import random
 from Map import Map
 from Enemy import Enemy
 from UserEvents import NEW_WAVE_EVENT_ID, ENEMY_SPAWN_INTERVAL_EVENT_ID, ONE_SECOND_EVENT_ID
-from SpriteGroups import ui_button_group, all_sprites, enemy_group, tower_group, projectile_group
+from SpriteGroups import ui_button_group, all_sprites, enemy_group, tower_group, \
+    projectile_group, ui_group
 from Towers import Tower, StoneTower, ArcherTower, WizardTower, GoldMine
 from UI import UIElement, UIButton
 
@@ -203,17 +204,13 @@ class Game:
 
     def restart(self):
         for i in enemy_group:
-            enemy_group.remove(i)
-            all_sprites.remove(i)
-            i.kill()
+            i.destroy()
         for i in tower_group:
-            tower_group.remove(i)
-            all_sprites.remove(i)
-            i.kill()
+            i.destroy()
         for i in projectile_group:
-            projectile_group.remove(i)
-            all_sprites.remove(i)
-            i.kill()
+            i.destroy()
+        for i in ui_button_group:
+            i.destroy()
         self.health = 20
         self.wave = 1
         self.gold = 300
@@ -227,3 +224,21 @@ class Game:
         pygame.time.set_timer(ONE_SECOND_EVENT_ID, 1000)
         pygame.time.set_timer(NEW_WAVE_EVENT_ID, 30000)
         pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 0)
+        Tower.tower_id = 0
+
+    def destroy(self):
+        for i in enemy_group:
+            i.destroy()
+        for i in tower_group:
+            i.destroy()
+        for i in projectile_group:
+            i.destroy()
+        for i in ui_button_group:
+            i.destroy()
+        for i in ui_group:
+            i.destroy()
+        Tower.tower_id = 0
+        pygame.time.set_timer(ONE_SECOND_EVENT_ID, 0)
+        pygame.time.set_timer(NEW_WAVE_EVENT_ID, 0)
+        pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 0)
+        del self

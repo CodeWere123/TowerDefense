@@ -12,22 +12,6 @@ button_images = {
 }
 
 
-class UISideMenu(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__(ui_group, all_sprites)
-        self.image = load_image("sidemenu.png", ["PNG", "UI"])
-        self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = (500, 0)
-
-
-class UIPauseButton(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__(ui_group, all_sprites)
-        self.image = load_image("pause.png", ["PNG", "UI"])
-        self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = (525, 20)
-
-
 class UIButton(pygame.sprite.Sprite):
     def __init__(self, image, pos):
         super().__init__(ui_group, ui_button_group, all_sprites)
@@ -49,3 +33,8 @@ class UIElement(pygame.sprite.Sprite):
         self.image = load_image(ui_image, ["PNG", "UI"])
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
+
+    def destroy(self):
+        ui_group.remove(self)
+        all_sprites.remove(self)
+        self.kill()

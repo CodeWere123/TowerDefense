@@ -141,6 +141,7 @@ def pause_menu(screen, game):
     mytheme.background_color = myimage
 
     def exit_to_main_menu():
+        game.destroy()
         main_menu(main_menu_screen)
 
     def restart_game():
