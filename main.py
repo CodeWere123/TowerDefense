@@ -20,12 +20,12 @@ def start_game_screen(response):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.image.save(game_screen, os.path.join("data", "tmp", "pause.png"))
-                    pause_menu(game_screen)
+                    pause_menu(game_screen, game)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 response = game.register_click(event.pos)
                 if response == "pause":
                     pygame.image.save(game_screen, os.path.join("data", "tmp", "pause.png"))
-                    pause_menu(game_screen)
+                    pause_menu(game_screen, game)
             if event.type == NEW_WAVE_EVENT_ID:
                 game.new_wave()
             if event.type == ENEMY_SPAWN_INTERVAL_EVENT_ID:
@@ -57,6 +57,7 @@ def start_game_screen(response):
 
 
 def main_menu(best_score, surface):
+    main_menu_screen = pygame.display.set_mode((800, 800))
     response = {"map": "td_jungle.txt", "difficulty": 1}
     image = load_image("bg_main.jpg", ["PNG"])
 
@@ -107,7 +108,7 @@ def lose_menu(score, best_score, surface):
     menu.mainloop(surface)
 
 
-def pause_menu(screen):
+def pause_menu(screen, game):
     img = pygame.image.load(os.path.join("data", "tmp", "pause.png")).convert()
     img.set_alpha(50)
     pygame.image.save(img, os.path.join("data", "tmp", "pause.png"))
@@ -119,8 +120,10 @@ def pause_menu(screen):
 
     def exit_to_main_menu():
         main_menu(1, main_menu_screen)
+
     def restart_game():
-        return "restart"
+        game.restart()
+        menu.close()
 
     menu = pygame_menu.Menu(width=600, height=500,
                             theme=mytheme, title="Paused", onclose=pygame_menu.events.CLOSE)

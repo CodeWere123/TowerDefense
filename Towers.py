@@ -47,7 +47,10 @@ class Tower(pygame.sprite.Sprite):
         tower_group.remove(self)
         all_sprites.remove(self)
         pygame.time.set_timer(TOWER_SHOOT_BASE_EVENT_ID + self.tower_id, 0)
-        towers.pop(self.tower_id)
+        try:
+            towers.pop(self.tower_id)
+        except KeyError:
+            pass
         self.kill()
 
     def get_target(self):

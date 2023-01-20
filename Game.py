@@ -7,7 +7,6 @@ from UserEvents import NEW_WAVE_EVENT_ID, ENEMY_SPAWN_INTERVAL_EVENT_ID, ONE_SEC
 from SpriteGroups import ui_button_group, all_sprites, enemy_group, tower_group, projectile_group
 from Towers import Tower, StoneTower, ArcherTower, WizardTower, GoldMine
 from UI import UIElement, UIButton
-import webbrowser
 
 ENEMIES_DATA = [
     [20, 0.5, 1, "land", "goblin", 1],
@@ -39,7 +38,6 @@ class Game:
         pygame.time.set_timer(ONE_SECOND_EVENT_ID, 1000)
         pygame.time.set_timer(NEW_WAVE_EVENT_ID, 30000)
         pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 0)
-        webbrowser.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
     def setup_ui(self):
         self.ui_side_menu = UIElement("sidemenu.png", (500, 0))
