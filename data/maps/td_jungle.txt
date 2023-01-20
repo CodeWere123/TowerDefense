@@ -1,4 +1,4 @@
-td_jungle_1;Jungle;10;10;1;9;50
+td_jungle_1;Jungle;10;10;1;9;1;0;50
 l;r;l;l;l;l;l;l;l;l;
 l;r;l;l;l;l;l;l;l;l;
 l;r;r;r;r;r;r;r;l;l;

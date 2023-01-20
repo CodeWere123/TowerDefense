@@ -7,21 +7,24 @@ from SpriteGroups import enemy_group, all_sprites
 # Картинки врагов, пока что просто квадраты разных цветов
 enemy_images = {
     'minion': load_image("minion.png", ["PNG", "enemy"]),
-    'goblin': load_image("goblin.png", ["PNG", "enemy"])
+    'goblin': load_image("goblin.png", ["PNG", "enemy"]),
+    'golem': load_image("golem.png", ["PNG", "enemy"])
 }
 
 
 class Enemy(pygame.sprite.Sprite):
     # здоровье, скорость, урон (когда проходят до конца), тип врага (земля, воздух), путь (от начальной координаты, до конечной, все по центрам тайлов),
     # референс к картинке, путь, начальные коорды, сложность в виде целого числа от 1 до 3
-    def __init__(self, health, speed, damage, enemy_type, image, paths, difficulty, game):
+    def __init__(self, health, speed, damage, enemy_type, image, weight, paths, difficulty, game):
         super().__init__(enemy_group, all_sprites)
         self.health = round(health * (1 + (difficulty - 1) * 0.5))
         self.speed = speed * (1 + (difficulty - 1) * 0.1)
         self.damage = math.floor(damage * (1 + (difficulty - 1) * 0.5))
         self.enemy_type = enemy_type
+        self.weight = weight
         self.path = random.choice(paths)
         self.image = enemy_images[image]
+        self.enemy_name = image
         self.rect = self.image.get_rect()
         self.x, self.y = self.rect.x, self.rect.y = self.path[0]
         # К какому тайлу происходит передвижение
@@ -42,10 +45,14 @@ class Enemy(pygame.sprite.Sprite):
         if (self.number_to_sign(part_x - self.x), self.number_to_sign(part_y - self.y)) != difference:
             self.x, self.y = part_x, part_y
             self.current_path_part += 1
-            if self.current_path_part == len(self.path):
+            if self.current_path_part == len(self.path) - 1:
+                print("a")
                 self.game.get_damage(self.damage)
-                self.kill()
+                self.destroy()
         self.rect.x, self.rect.y = self.x, self.y
+
+    def get_pos(self):
+        return self.rect.x, self.rect.y
 
     @staticmethod
     def number_to_sign(num):
@@ -59,5 +66,11 @@ class Enemy(pygame.sprite.Sprite):
     # тут я думаю все понятно
     def get_damage(self, damage):
         self.health -= damage
-        if self.health == 0:
-            self.kill()
+        if self.health <= 0:
+            self.game.add_gold(self.weight * 3)
+            self.destroy()
+
+    def destroy(self):
+        enemy_group.remove(self)
+        all_sprites.remove(self)
+        self.kill()

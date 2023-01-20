@@ -1,0 +1,11 @@
+td_jungle_3;Jungle 3;10;10;0;4;9;4;50
+l;l;l;l;l;l;l;l;l;l;
+l;l;r;r;r;r;r;r;l;l;
+l;l;r;l;l;l;l;r;l;l;
+l;l;r;l;l;l;l;r;l;l;
+r;r;r;l;l;l;l;r;r;r;
+l;l;r;l;l;l;l;r;l;l;
+l;l;r;l;l;l;l;r;l;l;
+l;l;r;l;l;l;l;r;l;l;
+l;l;r;r;r;r;r;r;l;l;
+l;l;l;l;l;l;l;l;l;l;

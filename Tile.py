@@ -12,6 +12,7 @@ tile_images = {
 class Tile(pygame.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y, tile_size):
         super().__init__(tiles_group, all_sprites)
+        self.tile_type = tile_type
         self.image = tile_images[tile_type]
         self.rect = self.image.get_rect().move(
             tile_size * pos_x, tile_size * pos_y)

@@ -64,9 +64,13 @@ class Map:
         return None
 
     @staticmethod
-    def tile_to_screen(tile_x, tile_y, tile_size):
-        screen_x = tile_x * tile_size + tile_size / 2
-        screen_y = tile_y * tile_size + tile_size / 2
+    def tile_to_screen(tile_x, tile_y, tile_size, center=True):
+        if center:
+            screen_x = tile_x * tile_size + tile_size / 2
+            screen_y = tile_y * tile_size + tile_size / 2
+        else:
+            screen_x = tile_x * tile_size
+            screen_y = tile_y * tile_size
         return screen_x, screen_y
 
     def get_valid_neighbours(self, x, y, exclude_list):
@@ -100,3 +104,15 @@ class Map:
             screen_path.append(self.get_start_or_end_coords(path[-1][0], path[-1][1]))
             screen_paths.append(screen_path)
         return screen_paths
+
+    def generate_board(self):
+        board = [['_' for _ in range(self.width)] for _ in range(self.height)]
+
+        for tile in self.tiles:
+            x, y = tile.rect.x // self.tile_size, tile.rect.y // self.tile_size
+            if tile.tile_type == 'r':
+                board[y][x] = 'r'
+            elif tile.tile_type == 'l':
+                if self.get_valid_neighbours(x, y, []):
+                    board[y][x] = '-'
+        return board
