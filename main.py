@@ -12,6 +12,7 @@ from UserEvents import NEW_WAVE_EVENT_ID, ENEMY_SPAWN_INTERVAL_EVENT_ID, ONE_SEC
 def start_game_screen(response):
     game = Game(response["map"], response["difficulty"])
     game_screen = pygame.display.set_mode((600, 500))
+    game_map = response
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -32,11 +33,9 @@ def start_game_screen(response):
                 game.next_enemy()
             if event.type == ONE_SECOND_EVENT_ID:
                 game.next_wave_time()
-                print(game.wave_time)
             for tower_id in towers:
                 if event.type == TOWER_SHOOT_BASE_EVENT_ID + tower_id:
                     towers[tower_id].shoot()
-        projectile_group.update()
         tiles_group.draw(game_screen)
         enemy_group.draw(game_screen)
         tower_group.draw(game_screen)
@@ -44,6 +43,8 @@ def start_game_screen(response):
         ui_group.draw(game_screen)
         game_screen.blit(game.all_gold_text, (540, 395))
         game_screen.blit(game.heart_text, (535, 435))
+        game_screen.blit(game.score_text, (0, 0))
+        game_screen.blit(game.wave_time_text, (0, 470))
         if game.do_render_tower_gold:
             game_screen.blit(game.archer_gold, (540, 130))
             game_screen.blit(game.stone_gold, (540, 190))
@@ -51,12 +52,31 @@ def start_game_screen(response):
             game_screen.blit(game.mine_gold, (540, 310))
         if game.do_render_upgrade_gold:
             game_screen.blit(game.upgrade_gold, (540, 130))
+        if game.game_is_over:
+            with open(os.path.join("data", "save", "highscores.txt"), "r+") as f:
+                lines = list(f.readlines())
+                if game_map["map"] == "td_jungle.txt":
+                    lines[0] = str(game.score) + "\n"
+                if game_map["map"] == "td_jungle2.txt":
+                    lines[1] = str(game.score) + "\n"
+                if game_map["map"] == "td_jungle3.txt":
+                    lines[2] = str(game.score) + "\n"
+                f.truncate(0)
+                f.seek(0)
+                f.writelines(lines)
+            lose_menu(game.score, 1, main_menu_screen)
         pygame.display.flip()
         if clock.tick(FPS):
             enemy_group.update()
+            projectile_group.update()
 
 
-def main_menu(best_score, surface):
+def main_menu(surface):
+    f = open(os.path.join("data", "save", "highscores.txt"))
+    highscores = list(map(str.strip, f.readlines()))
+    highscores = {"td_jungle.txt": highscores[0], "td_jungle2.txt": highscores[1],
+                  "td_jungle3.txt": highscores[2]}
+    f.close()
     main_menu_screen = pygame.display.set_mode((800, 800))
     response = {"map": "td_jungle.txt", "difficulty": 1}
     image = load_image("bg_main.jpg", ["PNG"])
@@ -66,6 +86,7 @@ def main_menu(best_score, surface):
 
     def set_map(value, map):
         response["map"] = map
+        label.set_title(f"Ваш лучший счет: {highscores[response['map']]}")
 
     def start_the_game():
         start_game_screen(response)
@@ -76,7 +97,7 @@ def main_menu(best_score, surface):
                             theme=pygame_menu.themes.THEME_GREEN)
 
     menu.add.button('Играть', start_the_game)
-    menu.add.label(f"Вас лучший счет: {best_score}")
+    label = menu.add.label(f"Ващ лучший счет: {highscores[response['map']]}")
     menu.add.selector('Сложность :', [('Easy', 1), ('Middle', 2), ('Hard', 3)],
                       onchange=set_difficulty)
     menu.add.selector('Карта :', [('Карта 1', "td_jungle.txt"), ('Карта 2', "td_jungle2.txt"),
@@ -88,11 +109,12 @@ def main_menu(best_score, surface):
 
 
 def lose_menu(score, best_score, surface):
+    surface = pygame.display.set_mode((800, 800))
     response = {"map": 1, "difficulty": 1}
     image = load_image("bg_main.jpg", ["PNG"])
 
     def to_menu():
-        main_menu(best_score, surface)
+        main_menu(surface)
 
     menu = pygame_menu.Menu('Вы проиграли', 800, 800,
                             theme=pygame_menu.themes.THEME_ORANGE)
@@ -119,7 +141,7 @@ def pause_menu(screen, game):
     mytheme.background_color = myimage
 
     def exit_to_main_menu():
-        main_menu(1, main_menu_screen)
+        main_menu(main_menu_screen)
 
     def restart_game():
         game.restart()
@@ -139,4 +161,4 @@ FPS = 60
 pygame.init()
 clock = pygame.time.Clock()
 main_menu_screen = pygame.display.set_mode((800, 800))
-main_menu(1, main_menu_screen)
+main_menu(main_menu_screen)

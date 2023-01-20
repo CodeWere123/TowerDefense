@@ -10,8 +10,8 @@ from UI import UIElement, UIButton
 
 ENEMIES_DATA = [
     [20, 0.5, 1, "land", "goblin", 1],
-    [50, 1, 2, "air", "minion", 10],
-    [200, 0.25, 4, "land", "golem", 30]
+    [50, 1, 2, "air", "minion", 7],
+    [1000, 0.25, 4, "land", "golem", 30]
 ]
 
 ARCHER_PRICE = 150
@@ -26,17 +26,19 @@ class Game:
         self.game_map = Map(map_file)
         self.difficulty = difficulty
         self.wave = 1
-        self.gold = 300000
+        self.gold = 300
         self.current_enemies = []
         self.wave_time = 30
         self.tile_state = 0
         self.last_tile = []
+        self.score = 0
         self.board = self.game_map.generate_board()
         self.do_render_tower_gold = False
         self.do_render_upgrade_gold = False
+        self.game_is_over = False
         self.setup_ui()
         pygame.time.set_timer(ONE_SECOND_EVENT_ID, 1000)
-        pygame.time.set_timer(NEW_WAVE_EVENT_ID, 30000)
+        pygame.time.set_timer(NEW_WAVE_EVENT_ID, 5000)
         pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 0)
 
     def setup_ui(self):
@@ -53,6 +55,8 @@ class Game:
         self.upgrade_gold = None
         self.heart_font = pygame.font.Font(None, 36)
         self.heart_text = self.heart_font.render(str(self.health), True, (255, 255, 255))
+        self.score_text = self.font.render(self.readable_number(self.score), True, (255, 255, 255))
+        self.wave_time_text = self.font.render(str(self.wave_time), True, (255, 255, 255))
 
     def new_wave(self):
         number_of_enemies = self.wave * (math.floor(math.log10(self.wave)) + 1) +\
@@ -66,13 +70,12 @@ class Game:
             enemies.append(enemy_data)
             number_of_enemies -= enemy_data[-1]
         self.current_enemies = enemies
-        pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 300)
+        pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 500)
         self.wave += 1
 
     def next_enemy(self):
         enemy_data = self.current_enemies.pop()
-        Enemy(*enemy_data, self.game_map.paths_to_screen_coordinates(
-            self.game_map.paths), self.difficulty, self)
+        Enemy(*enemy_data, self.game_map.enemy_path, self.difficulty, self)
         if len(self.current_enemies) == 0:
             pygame.time.set_timer(ENEMY_SPAWN_INTERVAL_EVENT_ID, 0)
 
@@ -80,6 +83,7 @@ class Game:
         self.wave_time -= 1
         if self.wave_time == 0:
             self.wave_time = 30
+        self.wave_time_text = self.font.render(str(self.wave_time), True, (255, 255, 255))
 
     def get_damage(self, damage):
         self.health -= damage
@@ -91,8 +95,12 @@ class Game:
         self.gold += gold
         self.all_gold_text = self.font.render(self.readable_number(self.gold), True, (0, 0, 0))
 
+    def add_score(self, score):
+        self.score += score
+        self.score_text = self.font.render(self.readable_number(self.score), True, (255, 255, 255))
+
     def game_over(self):
-        pass
+        self.game_is_over = True
 
     def register_click(self, mouse_pos):
         tile = self.get_cell(mouse_pos)
@@ -137,7 +145,7 @@ class Game:
                     self.add_gold(-ARCHER_PRICE)
                 elif button_type == "stone_tower" and self.gold >= 300:
                     self.board[self.last_tile[1]][self.last_tile[0]] = StoneTower(
-                        coords, 2000, self, STONE_PRICE)
+                        coords, 4000, self, STONE_PRICE)
                     self.add_gold(-STONE_PRICE)
                 elif button_type == "wizard_tower" and self.gold >= 200:
                     self.board[self.last_tile[1]][self.last_tile[0]] = WizardTower(

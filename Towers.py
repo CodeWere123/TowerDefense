@@ -85,6 +85,7 @@ class StoneTower(Tower):
             t_x, t_y = self.x, self.y
             if math.sqrt(abs(t_x - e_x) ** 2 + abs(t_y - e_y) ** 2) <= self.radius:
                 if i.current_path_part > max_path_part:
+                    max_path_part = i.current_path_part
                     enemy = i
         if enemy is not None:
             Stone((self.x, self.y), (enemy.x, enemy.y), self.damage)
@@ -101,10 +102,10 @@ class WizardTower(Tower):
 
     def upgrade(self):
         if self.upgrade_count < 9:
-            self.cooldown -= 3000
+            self.cooldown -= 2000
             pygame.time.set_timer(TOWER_SHOOT_BASE_EVENT_ID + self.tower_id, self.cooldown)
             self.upgrade_count += 1
-            self.upgrade_price += 50
+            self.upgrade_price += 75
         else:
             self.game.add_gold(self.upgrade_price)
 
@@ -129,10 +130,10 @@ class GoldMine(Tower):
         :param cooldown: перезарядка
         """
         super().__init__(pos, cooldown, game, "gold_mine.png", price)
-        self.gold_rate = 10
+        self.gold_rate = 5
 
     def upgrade(self):
-        self.gold_rate += 5
+        self.gold_rate += 2
         self.upgrade_price += 25
 
     def shoot(self):
@@ -146,7 +147,7 @@ class ArcherTower(Tower):
         :param cooldown: перезарядка
         """
         super().__init__(pos, cooldown, game, "archer_tower.png", price)
-        self.radius = 100
+        self.radius = 150
         self.damage = 10
 
     def upgrade(self):

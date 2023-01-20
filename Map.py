@@ -16,6 +16,7 @@ class Map:
         self.tiles = []
         self.paths = [[tuple(self.start_tile)] + self.generate_path(
             *self.start_tile, *x) for x in self.end_tiles]
+        self.enemy_path = self.paths_to_screen_coordinates(self.paths)
         self.generate_level()
 
     # Файл карты примера находится в data/maps/ , а тут код превращает txt в что-то человеческое
@@ -97,11 +98,14 @@ class Map:
     def paths_to_screen_coordinates(self, paths_list):
         screen_paths = []
         for path in paths_list:
-            screen_path = [self.get_start_or_end_coords(path[0][0], path[0][1])]
+            screen_path = [tuple([x - 12 for x in self.get_start_or_end_coords(path[0][0],
+                                                                            path[0][1])])]
             for tile_x, tile_y in path:
-                screen_x, screen_y = self.tile_to_screen(tile_x, tile_y, self.tile_size)
+                screen_x, screen_y = [x - 12 for x in self.tile_to_screen(tile_x, tile_y,
+                                                                      self.tile_size)]
                 screen_path.append((screen_x, screen_y))
-            screen_path.append(self.get_start_or_end_coords(path[-1][0], path[-1][1]))
+            screen_path.append([x - 12 for x in self.get_start_or_end_coords(path[-1][0],
+                                                                            path[-1][1])])
             screen_paths.append(screen_path)
         return screen_paths
 

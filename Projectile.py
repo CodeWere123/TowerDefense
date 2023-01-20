@@ -11,7 +11,7 @@ class Stone(pygame.sprite.Sprite):
         self.end_pos = end_pos
         self.speed = 2
         self.damage = damage
-        self.radius = 15
+        self.radius = 25
         self.animation_frames = []
         for i in range(1, 6):
             frame = load_image(f"{i}.png", ["PNG", "projectiles", "stone"])

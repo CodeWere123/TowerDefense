@@ -46,7 +46,6 @@ class Enemy(pygame.sprite.Sprite):
             self.x, self.y = part_x, part_y
             self.current_path_part += 1
             if self.current_path_part == len(self.path) - 1:
-                print("a")
                 self.game.get_damage(self.damage)
                 self.destroy()
         self.rect.x, self.rect.y = self.x, self.y
@@ -68,6 +67,7 @@ class Enemy(pygame.sprite.Sprite):
         self.health -= damage
         if self.health <= 0:
             self.game.add_gold(self.weight * 3)
+            self.game.add_score(self.weight)
             self.destroy()
 
     def destroy(self):
