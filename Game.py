@@ -54,7 +54,6 @@ class Game:
         self.heart_font = pygame.font.Font(None, 36)
         self.heart_text = self.heart_font.render(str(self.health), True, (255, 255, 255))
 
-
     def new_wave(self):
         number_of_enemies = self.wave * (math.floor(math.log10(self.wave)) + 1) +\
                             2 * (math.floor(math.log2(self.wave)) + 1)
@@ -103,7 +102,10 @@ class Game:
         if self.ui_pause_button.rect.collidepoint(mouse_pos[0], mouse_pos[1]):
             return "pause"
         if self.tile_state == 0:
-            tile_contents = self.board[tile[1]][tile[0]]
+            try:
+                tile_contents = self.board[tile[1]][tile[0]]
+            except TypeError:
+                tile_contents = "+"
             if tile_contents == "-":
                 UIButton("archer_tower", (525, 80))
                 UIButton("stone_tower", (525, 140))
