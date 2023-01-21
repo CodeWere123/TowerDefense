@@ -84,7 +84,7 @@ class StoneTower(Tower):
             e_x, e_y = i.get_pos()
             t_x, t_y = self.x, self.y
             if math.sqrt(abs(t_x - e_x) ** 2 + abs(t_y - e_y) ** 2) <= self.radius:
-                if i.current_path_part > max_path_part:
+                if i.current_path_part > max_path_part and i.enemy_type == "land":
                     max_path_part = i.current_path_part
                     enemy = i
         if enemy is not None:
